@@ -1,5 +1,5 @@
 # Win_Rootkit
-A kernel-mode rootkit with remote control that utilizes DKOM with a remote keylogger.    
+A kernel-mode rootkit with remote control that utilizes DKOM.    
        
 Hiding Processes, token manipulation , hiding network connections...
 
