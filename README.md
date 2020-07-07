@@ -7,7 +7,7 @@ Hiding Processes, token manipulation , hiding network connections...
 ### Process elevation (token manipulation):
 ![elev](https://user-images.githubusercontent.com/60041914/86833920-da6c7f80-c0a2-11ea-9f6d-9ce15bbbdc5d.gif)
 
-### Hiding Processes
+### Hiding Processes:
 ![hide](https://user-images.githubusercontent.com/60041914/86835571-fc670180-c0a4-11ea-9f0f-35b1a1eac1ff.gif)
 
 Tested on Windows 7 SP 1
