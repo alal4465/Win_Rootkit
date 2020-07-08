@@ -18,3 +18,4 @@ Tested on Windows 7 SP 1
 - [x] Remote command execution
 - [x] A remote keylogger
 - [ ] Hiding network connection
+- [x] Dropper
