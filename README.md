@@ -1,9 +1,6 @@
 # Win_Rootkit
-A kernel-mode rootkit with remote control that utilizes DKOM.    
-       
+A kernel-mode rootkit with remote control that utilizes DKOM.       
 Hiding Processes, token manipulation , remote command execution...
-
-
 ### Process elevation (token manipulation):
 ![elev](https://user-images.githubusercontent.com/60041914/86833920-da6c7f80-c0a2-11ea-9f6d-9ce15bbbdc5d.gif)
 
