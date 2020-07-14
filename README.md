@@ -1,5 +1,5 @@
 # Win_Rootkit
-A kernel-mode rootkit with remote control that utilizes some C++ Runtime.         
+A kernel-mode rootkit with remote control that utilizes C++ Runtime in it's driver.         
 Uses DKOM and IRP Hooks.             
 Hiding Processes, token manipulation , hiding tcp network connections by port...
 
