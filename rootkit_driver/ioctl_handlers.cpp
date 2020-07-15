@@ -8,7 +8,6 @@ static NTSTATUS ElevateByPid(ULONG pid);
 static NTSTATUS IntegerFromIrp(PIRP Irp, PULONG ret);
 
 
-
 NTSTATUS IoctlHandlers::HandleElevate(PIRP Irp) {
 
 	NTSTATUS status = STATUS_SUCCESS;
