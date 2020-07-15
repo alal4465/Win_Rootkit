@@ -1,7 +1,7 @@
 #include "hide_port.h"
 
-PDRIVER_OBJECT NetHook::pNsi_driver_object = 0;
-PDRIVER_DISPATCH NetHook::original_nsi_device_io = 0;
+PDRIVER_OBJECT NetHook::pNsi_driver_object = nullptr;
+PDRIVER_DISPATCH NetHook::original_nsi_device_io = nullptr;
 vector<USHORT>* NetHook::hidden_ports = nullptr;
 
 USHORT NetHook::htons(USHORT a)
