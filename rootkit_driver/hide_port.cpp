@@ -171,7 +171,10 @@ void NetHook::unhookNsiProxy() {
 	//undo hook
 	InterlockedExchange(reinterpret_cast<PLONG>(&(pNsi_driver_object->MajorFunction[IRP_MJ_DEVICE_CONTROL])), reinterpret_cast<LONG>(original_nsi_device_io));
 	KdPrint(("Port_Hide: original DeviceControl func restored \n"));
-
+	
+	//decrease reference count of hooked driver
+	ObDereferenceObject(pNsi_driver_object);
+	
 	//sleep after removing IRP hooks
 	//to make sure all handlers are done
 	LARGE_INTEGER wait_time;
