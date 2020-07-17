@@ -8,7 +8,7 @@ Network::WrapWSA::WrapWSA() {
 
 }
 void Network::WrapWSA::cleanup() {
-	std::cout << "WSACleanup called" << std::endl;
+	std::cout << "WSACleanup called\n";
 	WSACleanup();
 }
 int Network::WrapWSA::getError() {
@@ -33,13 +33,13 @@ Network::RootkitClient::RootkitClient() {
 
 	this->m_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	std::cout << "checking got socket..." << std::endl;
+	std::cout << "checking got socket...\n";
 
 
 	if (this->m_server_socket == INVALID_SOCKET)
 		throw std::exception("Couldn't open socket");
 
-	std::cout << "trying init" << std::endl;
+	std::cout << "trying init\n";
 
 
 	bool status = this->connect_to_server();
@@ -48,13 +48,13 @@ Network::RootkitClient::RootkitClient() {
 	if (!status)
 		throw std::exception("couldn't listen/bind to port");
 
-	std::cout << "done init" << std::endl;
+	std::cout << "done init\n";
 
 }
 
 Network::RootkitClient::~RootkitClient() {
 
-	std::cout << "closing socket." << std::endl;
+	std::cout << "closing socket.\n";
 
 	closesocket(this->m_server_socket);
 	this->m_wsa.cleanup();
@@ -69,10 +69,10 @@ bool Network::RootkitClient::ReceiveText(std::string& text) {
 
 	if (bytes_recived == SOCKET_ERROR) {
 		std::cout << "SOCKET ERROR! errorcode:";
-		std::cout << this->m_wsa.getError() << std::endl;
+		std::cout << this->m_wsa.getError() << "\n";
 		return false;
 	}
-	std::cout << recived_buffer << std::endl;
+	std::cout << recived_buffer << "\n";
 
 	text += recived_buffer;
 
@@ -80,13 +80,13 @@ bool Network::RootkitClient::ReceiveText(std::string& text) {
 }
 
 
-bool Network::RootkitClient::SendText(std::string text) {
+bool Network::RootkitClient::SendText(std::string& text) {
 
 	int bytes_recived = send(m_server_socket, text.c_str(), text.size(), 0);
 
 	if (bytes_recived == SOCKET_ERROR) {
 		std::cout << "SOCKET ERROR! errorcode:";
-		std::cout << this->m_wsa.getError() << std::endl;
+		std::cout << this->m_wsa.getError() << "\n";
 		return false;
 	}
 
