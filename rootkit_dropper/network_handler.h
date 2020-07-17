@@ -22,7 +22,7 @@ namespace Network {
 	public:
 		RootkitClient();
 		~RootkitClient();
-		bool SendText(std::string text);
+		bool SendText(std::string& text);
 		bool ReceiveText(std::string& text);
 	};
 
