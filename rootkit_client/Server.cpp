@@ -8,7 +8,7 @@ Server::WrapWSA::WrapWSA() {
 
 }
 void Server::WrapWSA::cleanup() {
-	std::cout << "WSACleanup called" << std::endl;
+	std::cout << "WSACleanup called\n";
 	WSACleanup();
 }
 int Server::WrapWSA::getError() {
@@ -58,7 +58,7 @@ Server::RootkitServer::RootkitServer() {
 
 Server::RootkitServer::~RootkitServer() {
 
-	std::cout << "closing socket." << std::endl;
+	std::cout << "closing socket.\n";
 
 	closesocket(this->m_socket);
 	closesocket(this->m_client_socket);
@@ -86,7 +86,7 @@ bool Server::RootkitServer::ReceiveText(std::string& text) {
 
 	if (bytes_recived == SOCKET_ERROR) {
 		std::cout << "SOCKET ERROR! errorcode:";
-		std::cout << this->m_wsa.getError() << std::endl;
+		std::cout << this->m_wsa.getError() << "\n";
 		return false;
 	}
 
@@ -102,7 +102,7 @@ bool Server::RootkitServer::SendText(std::string& text) {
 
 	if (bytes_recived == SOCKET_ERROR) {
 		std::cout << "SOCKET ERROR! errorcode:";
-		std::cout << this->m_wsa.getError() << std::endl;
+		std::cout << this->m_wsa.getError() << "\n";
 		return false;
 	}
 
