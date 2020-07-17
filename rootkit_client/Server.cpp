@@ -96,7 +96,7 @@ bool Server::RootkitServer::ReceiveText(std::string& text) {
 }
 
 
-bool Server::RootkitServer::SendText(std::string text) {
+bool Server::RootkitServer::SendText(std::string& text) {
 
 	int bytes_recived = send(m_client_socket, text.c_str(), text.size(), 0);
 
