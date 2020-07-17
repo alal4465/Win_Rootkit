@@ -22,7 +22,7 @@ namespace Server {
 	public:
 		RootkitServer();
 		~RootkitServer();
-		bool SendText(std::string text);
+		bool SendText(std::string& text);
 		bool ReceiveText(std::string& text);
 		bool Accept();
 	};
