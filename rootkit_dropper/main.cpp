@@ -105,7 +105,7 @@ static void executeCommands(Driver::DriverHandler& rootkit_handler, Network::Roo
 		break;
 	}
 	else {
-		std::cout << "command not recognized" << "\n";
+		std::cout << "command not recognized\n";
 	}
 
 
