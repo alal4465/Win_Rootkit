@@ -12,19 +12,82 @@ class vector {
     FastMutex Mutex;
 
 public:
-    vector();
+    vector()
+        : capacity(1),current_capacity(0)
+    {
+        KdPrint(("Vector constructor called\n"));
+        Mutex.Init();
+        arr = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * 1));
+    }
 
-    void push_back(const T& data);
+    ~vector() {
+        KdPrint(("Vector deconstructor called\n"));
+        ExFreePool(arr);
+    }
 
-    T get(int index);
+    void* operator new(size_t size) {
+        KdPrint(("Vector operator new\n"));
+        return ExAllocatePool(PagedPool, size);
+    }
 
-    void pop();
+    void operator delete(void* ptr) {
+        KdPrint(("Vector operator delete\n"));
+        ExFreePool(ptr);
+    }
 
-    int size();
 
-    int get_capacity();
+    void push_back(const T& data) {
+        AutoLock<FastMutex> locker(Mutex);
 
-    bool exists(const T& data);
+        // if the number of elements is equal to the max capacity
+        if (current_capacity == capacity) {
+            T* temp = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * 2 * capacity));
 
-    void free_mem();
+            // copying old array elements to new array 
+            for (int i = 0; i < capacity; i++) {
+                temp[i] = arr[i];
+            }
+
+            // deleting previous array 
+            ExFreePool(arr);
+            capacity *= 2;
+            arr = temp;
+        }
+
+        // Inserting data 
+        arr[current_capacity] = data;
+        current_capacity++;
+    }
+
+    T& operator[](int i) {
+        AutoLock<FastMutex> locker(Mutex);
+        if (i >= current_capacity)
+            return NULL;
+
+        return arr[i];
+    }
+
+    void pop()
+    {
+        AutoLock<FastMutex> locker(Mutex);
+        current_capacity--;
+    }
+
+    int size()
+    {
+        AutoLock<FastMutex> locker(Mutex);
+        return current_capacity;
+    }
+
+    bool exists(const T& data)
+    {
+        AutoLock<FastMutex> locker(Mutex);
+
+        for (int i = 0; i < current_capacity; i++)
+            if (arr[i] == data)
+                return true;
+
+        return false;
+
+    }
 };
