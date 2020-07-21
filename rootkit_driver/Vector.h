@@ -35,7 +35,6 @@ public:
         ExFreePool(ptr);
     }
 
-
     void push_back(const T& data) {
         AutoLock<FastMutex> locker(Mutex);
 
