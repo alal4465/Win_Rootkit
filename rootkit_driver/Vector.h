@@ -69,7 +69,9 @@ public:
     void pop()
     {
         AutoLock<FastMutex> locker(Mutex);
-        current_capacity--;
+        
+        if(current_capacity > 0)
+            current_capacity--;
     }
 
     int size()
