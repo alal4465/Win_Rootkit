@@ -144,7 +144,7 @@ NTSTATUS NetHook::initNsiHook() {
 
 	RtlInitUnicodeString(&nsi_driver_name, L"\\Driver\\nsiproxy");
 
-	status = ObReferenceObjectByName(&nsi_driver_name, OBJ_CASE_INSENSITIVE, NULL, 0, *IoDriverObjectType, KernelMode, NULL, (PVOID*)&pNsi_driver_object);
+	status = ObReferenceObjectByName(&nsi_driver_name, OBJ_CASE_INSENSITIVE, NULL, 0, *IoDriverObjectType, KernelMode, NULL, reinterpret_cast<PVOID*>(&pNsi_driver_object));
 
 	if (!NT_SUCCESS(status))
 	{
