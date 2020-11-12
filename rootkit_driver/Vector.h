@@ -77,10 +77,12 @@ public:
     }
 
     T* begin() {
+        AutoLock<FastMutex> locker(mutex);
         return ptr;
     }
 
     T* end() {
+        AutoLock<FastMutex> locker(mutex);
         return ptr + current_capacity;
     }
 
