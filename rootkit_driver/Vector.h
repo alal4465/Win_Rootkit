@@ -9,7 +9,7 @@ class vector {
 
     T* m_ptr;
     int m_capacity;
-    int current_capacity;
+    int m_current_capacity;
     FastMutex mutex;
 
 public:
