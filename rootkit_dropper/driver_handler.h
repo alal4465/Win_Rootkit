@@ -14,7 +14,7 @@ enum class RookitIoctls {
 };
 
 class DriverHandler {
-	HANDLE m_device_handle;
+	HANDLE device_handle_;
 	
 public:
 	DriverHandler();
