@@ -10,7 +10,7 @@ class vector {
     T* m_ptr;
     int m_capacity;
     int m_current_capacity;
-    FastMutex mutex;
+    FastMutex m_mutex;
 
 public:
     vector():
@@ -18,7 +18,7 @@ public:
     m_current_capacity(0),
     m_ptr(static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * 1)))
     {
-        mutex.Init();
+        m_mutex.Init();
     }
 
     ~vector() {
@@ -26,7 +26,7 @@ public:
     }
 
     void push_back(const T& data) {
-        AutoLock<FastMutex> locker(mutex);
+        AutoLock<FastMutex> locker(m_mutex);
 
         // if the number of elements is equal to the max capacity
         if (m_current_capacity == m_capacity) {
@@ -50,13 +50,13 @@ public:
 
     void pop()
     {
-        AutoLock<FastMutex> locker(mutex);
+        AutoLock<FastMutex> locker(m_mutex);
         m_current_capacity--;
     }
 
     int size()
     {
-        AutoLock<FastMutex> locker(mutex);
+        AutoLock<FastMutex> locker(m_mutex);
         return m_current_capacity;
     }
 
@@ -71,23 +71,23 @@ public:
     }
 
     T& operator[](int i) {
-        AutoLock<FastMutex> locker(mutex);
+        AutoLock<FastMutex> locker(m_mutex);
         return m_ptr[i];
     }
 
     T* begin() {
-        AutoLock<FastMutex> locker(mutex);
+        AutoLock<FastMutex> locker(m_mutex);
         return m_ptr;
     }
 
     T* end() {
-        AutoLock<FastMutex> locker(mutex);
+        AutoLock<FastMutex> locker(m_mutex);
         return m_ptr + m_current_capacity;
     }
 
     bool contains(const T& data)
     {
-        AutoLock<FastMutex> locker(mutex);
+        AutoLock<FastMutex> locker(m_mutex);
 
         for (const auto& item : *this)
             if (item == data)
