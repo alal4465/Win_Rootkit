@@ -7,57 +7,57 @@
 template <typename T>
 class vector {
 
-    T* m_ptr;
-    int m_capacity;
-    int m_current_capacity;
-    FastMutex m_mutex;
+    T* ptr_;
+    int capacity_;
+    int current_capacity_;
+    FastMutex mutex_;
 
 public:
     vector():
-    m_capacity(1),
-    m_current_capacity(0),
-    m_ptr(static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * 1)))
+    capacity_(1),
+    current_capacity_(0),
+    ptr_(static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * 1)))
     {
-        m_mutex.Init();
+        mutex_.Init();
     }
 
     ~vector() {
-        ExFreePool(m_ptr);
+        ExFreePool(ptr_);
     }
 
     void push_back(const T& data) {
-        AutoLock<FastMutex> locker(m_mutex);
+        AutoLock<FastMutex> locker(mutex_);
 
         // if the number of elements is equal to the max capacity
-        if (m_current_capacity == m_capacity) {
-            T* temp = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * 2 * m_capacity));
+        if (current_capacity_ == capacity_) {
+            T* temp = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * 2 * capacity_));
 
             // copying old array elements to new array 
-            for (int i = 0; i < m_capacity; i++) {
-                temp[i] = m_ptr[i];
+            for (int i = 0; i < capacity_; i++) {
+                temp[i] = ptr_[i];
             }
 
             // deleting previous array 
-            ExFreePool(m_ptr);
-            m_capacity *= 2;
-            m_ptr = temp;
+            ExFreePool(ptr_);
+            capacity_ *= 2;
+            ptr_ = temp;
         }
 
         // Inserting data 
-        m_ptr[m_current_capacity] = data;
-        m_current_capacity++;
+        ptr_[current_capacity_] = data;
+        current_capacity_++;
     }
 
     void pop()
     {
-        AutoLock<FastMutex> locker(m_mutex);
-        m_current_capacity--;
+        AutoLock<FastMutex> locker(mutex_);
+        current_capacity_--;
     }
 
     int size()
     {
-        AutoLock<FastMutex> locker(m_mutex);
-        return m_current_capacity;
+        AutoLock<FastMutex> locker(mutex_);
+        return current_capacity_;
     }
 
     void* operator new(size_t size) {
@@ -71,23 +71,23 @@ public:
     }
 
     T& operator[](int i) {
-        AutoLock<FastMutex> locker(m_mutex);
-        return m_ptr[i];
+        AutoLock<FastMutex> locker(mutex_);
+        return ptr_[i];
     }
 
     T* begin() {
-        AutoLock<FastMutex> locker(m_mutex);
-        return m_ptr;
+        AutoLock<FastMutex> locker(mutex_);
+        return ptr_;
     }
 
     T* end() {
-        AutoLock<FastMutex> locker(m_mutex);
-        return m_ptr + m_current_capacity;
+        AutoLock<FastMutex> locker(mutex_);
+        return ptr_ + current_capacity_;
     }
 
     bool contains(const T& data)
     {
-        AutoLock<FastMutex> locker(m_mutex);
+        AutoLock<FastMutex> locker(mutex_);
 
         for (const auto& item : *this)
             if (item == data)
@@ -98,49 +98,49 @@ public:
     }
 
     vector<T>& operator=(vector<T>& rhs) {
-        m_capacity = rhs.m_capacity;
-        m_current_capacity = rhs.m_current_capacity;
+        capacity_ = rhs.capacity_;
+        current_capacity_ = rhs.current_capacity_;
 
-        ExFreePool(m_ptr);
+        ExFreePool(ptr_);
 
-        m_ptr = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * m_capacity));
+        ptr_ = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * capacity_));
 
-        for (int i = 0; i < rhs.m_current_capacity; i++)
-            m_ptr[i] = rhs[i];
+        for (int i = 0; i < rhs.current_capacity_; i++)
+            ptr_[i] = rhs[i];
         return *this;
     }
 
     vector<T>& operator=(vector<T>&& rhs) {
-        m_capacity = rhs.m_current_capacity;
-        m_current_capacity = rhs.m_current_capacity;
+        capacity_ = rhs.current_capacity_;
+        current_capacity_ = rhs.current_capacity_;
 
-        ExFreePool(m_ptr);
+        ExFreePool(ptr_);
 
-        m_ptr = rhs.m_ptr;
+        ptr_ = rhs.ptr_;
 
-        rhs.m_ptr = nullptr;
-        rhs.m_capacity = 0;
-        rhs.m_current_capacity = 0;
+        rhs.ptr_ = nullptr;
+        rhs.capacity_ = 0;
+        rhs.current_capacity_ = 0;
 
         return *this;
     }
 
     vector(vector<T>& rhs) {
-        m_capacity = rhs.m_capacity;
-        m_current_capacity = rhs.m_current_capacity;
-        m_ptr = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * m_capacity));
+        capacity_ = rhs.capacity_;
+        current_capacity = rhs.current_capacity_;
+        ptr_ = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * capacity_));
 
-        for (int i = 0; i < rhs.m_current_capacity; i++)
-            m_ptr[i] = rhs[i];
+        for (int i = 0; i < rhs.current_capacity_; i++)
+            ptr_[i] = rhs[i];
     }
 
     vector(vector<T>&& rhs) {
-        m_capacity = rhs.m_capacity;
-        m_current_capacity = rhs.m_current_capacity;
-        m_ptr = rhs.m_ptr;
+        capacity_ = rhs.capacity_;
+        current_capacity_ = rhs.current_capacity_;
+        ptr_ = rhs.ptr_;
 
-        rhs.m_ptr = nullptr;
-        rhs.m_capacity = 0;
-        rhs.m_current_capacity = 0;
+        rhs.ptr_ = nullptr;
+        rhs.capacity_ = 0;
+        rhs.current_capacity_ = 0;
     }
 };
