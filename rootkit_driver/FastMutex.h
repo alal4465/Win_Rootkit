@@ -8,5 +8,5 @@ public:
 	void Unlock();
 
 private:
-	FAST_MUTEX _mutex;
+	FAST_MUTEX m_mutex;
 };
