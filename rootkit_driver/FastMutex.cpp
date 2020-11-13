@@ -1,13 +1,13 @@
 #include "FastMutex.h"
 
 void FastMutex::Init() {
-	ExInitializeFastMutex(&m_mutex);
+	ExInitializeFastMutex(&mutex_);
 }
 
 void FastMutex::Lock() {
-	ExAcquireFastMutex(&m_mutex);
+	ExAcquireFastMutex(&mutex_);
 }
 
 void FastMutex::Unlock() {
-	ExReleaseFastMutex(&m_mutex);
+	ExReleaseFastMutex(&mutex_);
 }
