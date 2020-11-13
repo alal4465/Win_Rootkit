@@ -15,9 +15,9 @@ namespace Network {
 
 	class RootkitClient {
 	private:
-		WrapWSA m_wsa;
-		unsigned short m_port;
-		SOCKET m_server_socket;
+		WrapWSA wsa_;
+		unsigned short port_;
+		SOCKET server_socket_;
 		bool connect_to_server();
 	public:
 		RootkitClient();
