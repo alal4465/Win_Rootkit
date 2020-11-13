@@ -127,7 +127,7 @@ public:
 
     vector(vector<T>& rhs) {
         capacity_ = rhs.capacity_;
-        current_capacity = rhs.current_capacity_;
+        current_capacity_ = rhs.current_capacity_;
         ptr_ = static_cast<T*>(ExAllocatePool(PagedPool, sizeof(T) * capacity_));
 
         for (int i = 0; i < rhs.current_capacity_; i++)
