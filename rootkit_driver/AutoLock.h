@@ -2,14 +2,14 @@
 #include <Ntifs.h>
 template<typename TLock>
 struct AutoLock {
-	AutoLock(TLock& lock) : _lock(lock) {
-		_lock.Lock();
+	AutoLock(TLock& lock) : m_lock(lock) {
+		m_lock.Lock();
 	}
 
 	~AutoLock() {
-		_lock.Unlock();
+		m_lock.Unlock();
 	}
 
 private:
-	TLock& _lock;
+	TLock& m_lock;
 };
