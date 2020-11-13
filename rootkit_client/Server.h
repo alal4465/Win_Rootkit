@@ -14,10 +14,10 @@ namespace Server {
 
 	class RootkitServer {
 	private:
-		WrapWSA m_wsa;
-		unsigned short m_port;
-		SOCKET m_socket;
-		SOCKET m_client_socket;
+		WrapWSA wsa_;
+		unsigned short port_;
+		SOCKET socket_;
+		SOCKET client_socket_;
 		bool init_listen_bind();
 	public:
 		RootkitServer();
